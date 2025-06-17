@@ -86,10 +86,30 @@
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
         }
-        /* Estilo para o botão de cópia dentro do painel */
-        .copy-button, .copy-image-button { /* Aplica a ambos os tipos de botão */
+        /* Estilo para os novos botões de copiar bloco */
+        .copy-block-button {
             display: block;
-            margin: 15px auto; /* Centraliza e adiciona espaço */
+            margin: 15px auto;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            max-width: 200px;
+        }
+        .copy-block-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo para o botão de cópia original (agora só texto) */
+        .copy-button {
+            display: block;
+            margin: 15px auto;
             padding: 10px 15px;
             background-color: #007bff;
             color: white;
@@ -102,28 +122,25 @@
             text-align: center;
             max-width: 200px; /* Limita a largura dos botões de cópia */
         }
-        .copy-button:hover, .copy-image-button:hover {
+        .copy-button:hover {
             background-color: #0056b3;
         }
+
         /* Conteúdo a ser copiado, para ser selecionado pelo JS */
         .copy-content {
             padding: 15px; /* Padding interno para o conteúdo a ser copiado */
         }
-        /* Estilo para a seção de cópia de imagem individual */
-        .image-copy-section {
-            text-align: center;
-            margin-bottom: 20px; /* Espaço entre as seções de imagem */
+        /* Estilo para os blocos copiáveis na seção MAX */
+        .copyable-block {
+            margin-bottom: 30px; /* Espaço entre os blocos */
+            border-bottom: 1px solid #eee; /* Separador visual suave */
+            padding-bottom: 20px;
         }
-        .image-copy-section .main-image {
-            margin-bottom: 10px; /* Espaço entre a imagem e seu botão */
+        .copyable-block:last-child {
+            border-bottom: none; /* Remove borda do último bloco */
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
-        hr {
-            border: 0;
-            height: 1px;
-            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
-            margin: 20px 0;
-        }
-
 
         #copy-toast { /*Menssagem de Copiado*/
             position: fixed;
@@ -235,33 +252,43 @@
                 <button class="accordion">MAX</button>
                 <div class="panel">
                     <div id="maxContent" class="copy-content">
-                        <div id="maxTextContent"> <p><strong>*MAX*</strong></p>
-                            <p>Acesse o app ou site: https://www.max.com/<br>
-                            Clique em ENTRAR</p> 
-                            <p>Clique em "crie uma conta MAX"</p>
-                            <p>No campo de "Pesquise seu provedor", digite PLAYHUB e selecione</p> 
-                            <p>Na tela "OUTROS PARCEIROS" realize o login</p>
-                            <p>Selecione o seu provedor, procure por NET RUBI <br>
-                            Código do assinante:    <br>
-                            Senha:      <br>
-                            E clique em ENTRAR
-                            </p>
-                        </div>
-                        <button class="copy-button" data-target="maxTextContent">Copiar Texto</button> <hr> <div class="image-copy-section">
+                        <div class="copyable-block">
+                            <div class="block-text">
+                                <p><strong>*MAX*</strong></p>
+                                <p>Acesse o app ou site: https://www.max.com/<br>
+                                Clique em ENTRAR</p>
+                            </div>
                             <img src="imagens/p1.jpg" alt="P1" class="main-image" onclick="openPopup('imagens/p1.jpg')">
-                            <button class="copy-image-button" data-image-src="imagens/p1.jpg">Copiar Imagem 1</button>
+                            <button class="copy-block-button">Copiar Passo 1</button>
                         </div>
-                        <div class="image-copy-section">
+
+                        <div class="copyable-block">
+                            <div class="block-text">
+                                <p>Clique em "crie uma conta MAX"</p>
+                            </div>
                             <img src="imagens/p2.jpg" alt="P2" class="main-image" onclick="openPopup('imagens/p2.jpg')">
-                            <button class="copy-image-button" data-image-src="imagens/p2.jpg">Copiar Imagem 2</button>
+                            <button class="copy-block-button">Copiar Passo 2</button>
                         </div>
-                        <div class="image-copy-section">
+
+                        <div class="copyable-block">
+                            <div class="block-text">
+                                <p>No campo de "Pesquise seu provedor", digite PLAYHUB e selecione</p>
+                            </div>
                             <img src="imagens/P3.jpg" alt="P3" class="main-image" onclick="openPopup('imagens/P3.jpg')">
-                            <button class="copy-image-button" data-image-src="imagens/P3.jpg">Copiar Imagem 3</button>
+                            <button class="copy-block-button">Copiar Passo 3</button>
                         </div>
-                        <div class="image-copy-section">
+
+                        <div class="copyable-block">
+                            <div class="block-text">
+                                <p>Na tela "OUTROS PARCEIROS" realize o login</p>
+                                <p>Selecione o seu provedor, procure por NET RUBI <br>
+                                Código do assinante:    <br>
+                                Senha:      <br>
+                                E clique em ENTRAR
+                                </p>
+                            </div>
                             <img src="imagens/P4.jpg" alt="P4" class="main-image" onclick="openPopup('imagens/P4.jpg')">
-                            <button class="copy-image-button" data-image-src="imagens/P4.jpg">Copiar Imagem 4</button>
+                            <button class="copy-block-button">Copiar Passo 4</button>
                         </div>
                     </div>
                 </div>
@@ -358,14 +385,14 @@
             });
         }
 
-        // --- Copy to Clipboard Logic (AGORA SEPARADO PARA TEXTO E IMAGENS INDIVIDUAIS) ---
-        var copyTextButtons = document.getElementsByClassName("copy-button"); // Botões para copiar texto
-        var copyImageButtons = document.getElementsByClassName("copy-image-button"); // Novos botões para copiar imagens
+        // --- Copy to Clipboard Logic (Modificado para copiar texto OU bloco de texto+imagem) ---
+        var copyTextOnlyButtons = document.getElementsByClassName("copy-button"); // Botões que copiam apenas texto (outras seções)
+        var copyBlockButtons = document.getElementsByClassName("copy-block-button"); // Novos botões que copiam bloco (texto + 1 imagem na seção MAX)
         var toast = document.getElementById("copy-toast");
 
-        // Listener para botões de COPIAR TEXTO
-        for (var i = 0; i < copyTextButtons.length; i++) {
-            copyTextButtons[i].addEventListener("click", async function(event) {
+        // Listener para botões de COPIAR TEXTO (para seções sem múltiplas imagens ou blocos)
+        for (var i = 0; i < copyTextOnlyButtons.length; i++) {
+            copyTextOnlyButtons[i].addEventListener("click", async function(event) {
                 event.preventDefault();
 
                 var targetId = this.getAttribute("data-target");
@@ -399,41 +426,92 @@
             });
         }
 
-        // Listener para botões de COPIAR IMAGEM INDIVIDUAL
-        for (var i = 0; i < copyImageButtons.length; i++) {
-            copyImageButtons[i].addEventListener("click", async function(event) {
+        // Listener para NOVOS botões de COPIAR BLOCO (texto + 1 imagem) na seção MAX
+        for (var i = 0; i < copyBlockButtons.length; i++) {
+            copyBlockButtons[i].addEventListener("click", async function(event) {
                 event.preventDefault();
 
-                var imageSrc = this.getAttribute("data-image-src");
-
-                if (!imageSrc) {
-                    console.error("Caminho da imagem não encontrado para cópia.");
-                    alert("Erro: Imagem para copiar não encontrada.");
+                // Encontra o bloco pai (copyable-block) do botão clicado
+                const copyableBlock = this.closest('.copyable-block');
+                if (!copyableBlock) {
+                    console.error("Bloco copiável não encontrado.");
+                    alert("Erro: Conteúdo para copiar não encontrado.");
                     return;
                 }
 
-                if (navigator.clipboard && navigator.clipboard.write) {
+                const textElement = copyableBlock.querySelector('.block-text');
+                const imageElement = copyableBlock.querySelector('.main-image');
+
+                const clipboardItems = [];
+                let copiedSuccessfully = false;
+
+                // Tenta copiar texto (se houver)
+                if (textElement && textElement.innerText) {
+                    clipboardItems.push(new ClipboardItem({ 'text/plain': new Blob([textElement.innerText], { type: 'text/plain' }) }));
+                }
+
+                // Tenta copiar a imagem (se houver e API suportar)
+                if (imageElement && imageElement.src && navigator.clipboard && navigator.clipboard.write) {
                     try {
-                        const imageItem = await getClipboardImageItem(imageSrc);
-                        await navigator.clipboard.write([imageItem]); // Copia APENAS ESTA IMAGEM
-                        toast.textContent = "Imagem copiada!";
-                        toast.style.opacity = 1;
-                        setTimeout(function() {
-                            toast.style.opacity = 0;
-                            toast.textContent = "Copiado!";
-                        }, 1500);
+                        const imageItem = await getClipboardImageItem(imageElement.src);
+                        clipboardItems.push(imageItem);
                     } catch (err) {
-                        console.error('Falha ao copiar imagem:', err);
-                        alert("Erro ao copiar a imagem para a área de transferência. Verifique as permissões do navegador ou se está em HTTPS.");
+                        console.error('Falha ao processar imagem para cópia no bloco:', err);
+                        // Se a imagem falhar, a cópia pode continuar apenas com o texto
                     }
+                }
+
+                // Tenta escrever os itens coletados para o clipboard
+                if (clipboardItems.length > 0 && navigator.clipboard && navigator.clipboard.write) {
+                    try {
+                        await navigator.clipboard.write(clipboardItems);
+                        toast.textContent = "Conteúdo copiado!";
+                        copiedSuccessfully = true;
+                    } catch (err) {
+                        console.error('Falha ao escrever para o clipboard (geral):', err);
+                        alert("Erro ao copiar o conteúdo para a área de transferência. O navegador pode não suportar múltiplos itens de cópia de uma vez.");
+                        // Fallback para copiar apenas o texto se a cópia de múltiplos itens falhar
+                        if (textElement && textElement.innerText) {
+                            copyTextToClipboard(textElement.innerText)
+                                .then(() => {
+                                    toast.textContent = "Texto copiado (apenas)!";
+                                    copiedSuccessfully = true;
+                                })
+                                .catch(errText => {
+                                    console.error('Falha ao copiar texto de fallback:', errText);
+                                    alert("Erro final ao copiar conteúdo.");
+                                });
+                        }
+                    }
+                } else if (textElement && textElement.innerText) {
+                    // Fallback se não há imagens ou API não suporta para copiar só texto
+                    copyTextToClipboard(textElement.innerText)
+                        .then(() => {
+                            toast.textContent = "Texto copiado!";
+                            copiedSuccessfully = true;
+                        })
+                        .catch(errText => {
+                            console.error('Falha ao copiar texto:', errText);
+                            alert("Erro ao copiar conteúdo.");
+                        });
                 } else {
-                    console.warn("API Clipboard não suportada para copiar imagens.");
-                    alert("Não foi possível copiar a imagem. O navegador pode não suportar a API Clipboard para imagens.");
+                    console.warn("Nenhum conteúdo elegível para cópia encontrado no bloco.");
+                    alert("Nenhum conteúdo para copiar neste bloco.");
+                }
+
+                // Exibe o toast com base no sucesso da cópia
+                if (copiedSuccessfully) {
+                    toast.style.opacity = 1;
+                    setTimeout(function() {
+                        toast.style.opacity = 0;
+                        toast.textContent = "Copiado!"; // Reset message
+                    }, 1500);
                 }
             });
         }
 
-        // Função auxiliar para copiar texto para a área de transferência (ainda útil para fallbacks internos)
+
+        // Função auxiliar para copiar texto para a área de transferência
         function copyTextToClipboard(textContent) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 return navigator.clipboard.writeText(textContent);
