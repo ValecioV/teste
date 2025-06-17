@@ -87,9 +87,9 @@
             border-bottom-right-radius: 5px;
         }
         /* Estilo para o botão de cópia dentro do painel */
-        .copy-button { /* Mudei de .copy-link para .copy-button para ser mais semanticamente correto */
+        .copy-button, .copy-image-button { /* Aplica a ambos os tipos de botão */
             display: block;
-            margin: 15px 0; /* Espaço para o botão */
+            margin: 15px auto; /* Centraliza e adiciona espaço */
             padding: 10px 15px;
             background-color: #007bff;
             color: white;
@@ -99,15 +99,31 @@
             font-size: 14px;
             font-weight: bold;
             transition: background-color 0.3s ease;
-            text-align: center; /* Centraliza o texto do botão */
+            text-align: center;
+            max-width: 200px; /* Limita a largura dos botões de cópia */
         }
-        .copy-button:hover {
+        .copy-button:hover, .copy-image-button:hover {
             background-color: #0056b3;
         }
         /* Conteúdo a ser copiado, para ser selecionado pelo JS */
         .copy-content {
             padding: 15px; /* Padding interno para o conteúdo a ser copiado */
         }
+        /* Estilo para a seção de cópia de imagem individual */
+        .image-copy-section {
+            text-align: center;
+            margin-bottom: 20px; /* Espaço entre as seções de imagem */
+        }
+        .image-copy-section .main-image {
+            margin-bottom: 10px; /* Espaço entre a imagem e seu botão */
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            margin: 20px 0;
+        }
+
 
         #copy-toast { /*Menssagem de Copiado*/
             position: fixed;
@@ -190,7 +206,7 @@
 <body>
 
     <div class="container">
-        <img src="https://i.postimg.cc/JnR19B0z/apps.png" alt="Ícone de Aplicativos" class="header-image"> 
+        <img src="./images/apps.png" alt="Ícone de Aplicativos" class="header-image"> 
         <h1>Aplicativos</h1>
 
         <div class="accordion-grid">
@@ -219,23 +235,35 @@
                 <button class="accordion">MAX</button>
                 <div class="panel">
                     <div id="maxContent" class="copy-content">
-                        <p><strong>*MAX*</strong></p>
-                        <p>Acesse o app ou site: https://www.max.com/<br>
-                        Clique em ENTRAR</p> 
-                        <img src="imagens/p1.jpg" alt="P1" class="main-image" onclick="openPopup('imagens/p1.jpg')">
-                        <p>Clique em "crie uma conta MAX"</p>
-                        <img src="imagens/p2.jpg" alt="P2" class="main-image" onclick="openPopup('imagens/p2.jpg')">
-                        <p>No campo de "Pesquise seu provedor", digite PLAYHUB e selecione</p> 
-                        <img src="imagens/P3.jpg" alt="P3" class="main-image" onclick="openPopup('imagens/P3.jpg)">
-                        <p>Na tela "OUTROS PARCEIROS" realize o login</p>
-                        <img src="imagens/P4.jpg" alt="P4" class="main-image" onclick="openPopup('imagens/P4.jpg')">
-                        <p>Selecione o seu provedor, procure por NET RUBI <br>
-                        Código do assinante:    <br>
-                        Senha:      <br>
-                        E clique em ENTRAR
-                        </p>
+                        <div id="maxTextContent"> <p><strong>*MAX*</strong></p>
+                            <p>Acesse o app ou site: https://www.max.com/<br>
+                            Clique em ENTRAR</p> 
+                            <p>Clique em "crie uma conta MAX"</p>
+                            <p>No campo de "Pesquise seu provedor", digite PLAYHUB e selecione</p> 
+                            <p>Na tela "OUTROS PARCEIROS" realize o login</p>
+                            <p>Selecione o seu provedor, procure por NET RUBI <br>
+                            Código do assinante:    <br>
+                            Senha:      <br>
+                            E clique em ENTRAR
+                            </p>
+                        </div>
+                        <button class="copy-button" data-target="maxTextContent">Copiar Texto</button> <hr> <div class="image-copy-section">
+                            <img src="./images/p1.jpg" alt="P1" class="main-image" onclick="openPopup('./images/p1.jpg')">
+                            <button class="copy-image-button" data-image-src="./images/p1.jpg">Copiar Imagem 1</button>
+                        </div>
+                        <div class="image-copy-section">
+                            <img src="./images/p2.jpg" alt="P2" class="main-image" onclick="openPopup('./images/p2.jpg')">
+                            <button class="copy-image-button" data-image-src="./images/p2.jpg">Copiar Imagem 2</button>
+                        </div>
+                        <div class="image-copy-section">
+                            <img src="./images/p3.jpg" alt="P3" class="main-image" onclick="openPopup('./images/p3.jpg')">
+                            <button class="copy-image-button" data-image-src="./images/p3.jpg">Copiar Imagem 3</button>
+                        </div>
+                        <div class="image-copy-section">
+                            <img src="./images/p4.jpg" alt="P4" class="main-image" onclick="openPopup('./images/p4.jpg')">
+                            <button class="copy-image-button" data-image-src="./images/p4.jpg">Copiar Imagem 4</button>
+                        </div>
                     </div>
-                    <button class="copy-button" data-target="maxContent">Copiar</button>
                 </div>
                 <div id="imagePopup" class="popup-overlay">
                     <div class="popup-content">
@@ -330,135 +358,82 @@
             });
         }
 
-        // --- Copy to Clipboard Logic (Atualizado para copiar texto e múltiplas imagens) ---
-        var copyButtons = document.getElementsByClassName("copy-button");
+        // --- Copy to Clipboard Logic (AGORA SEPARADO PARA TEXTO E IMAGENS INDIVIDUAIS) ---
+        var copyTextButtons = document.getElementsByClassName("copy-button"); // Botões para copiar texto
+        var copyImageButtons = document.getElementsByClassName("copy-image-button"); // Novos botões para copiar imagens
         var toast = document.getElementById("copy-toast");
 
-        for (var i = 0; i < copyButtons.length; i++) {
-            copyButtons[i].addEventListener("click", async function(event) { // Torna a função assíncrona
+        // Listener para botões de COPIAR TEXTO
+        for (var i = 0; i < copyTextButtons.length; i++) {
+            copyTextButtons[i].addEventListener("click", async function(event) {
                 event.preventDefault();
 
                 var targetId = this.getAttribute("data-target");
                 var contentElement = document.getElementById(targetId);
 
                 if (!contentElement) {
-                    console.error("Elemento alvo para cópia não encontrado:", targetId);
-                    alert("Erro: Conteúdo para copiar não encontrado.");
+                    console.error("Elemento alvo para cópia de texto não encontrado:", targetId);
+                    alert("Erro: Conteúdo de texto para copiar não encontrado.");
                     return;
                 }
 
-                const textContent = contentElement.innerText; // Pega o texto de todo o painel
-                const imageElements = contentElement.querySelectorAll('.main-image'); // Pega TODAS as imagens
+                const textContent = contentElement.innerText;
 
-                const clipboardItems = [];
-
-                // 1. Adiciona o conteúdo de texto aos itens do clipboard
-                if (textContent) {
-                    clipboardItems.push(new ClipboardItem({ 'text/plain': new Blob([textContent], { type: 'text/plain' }) }));
-                }
-
-                // 2. Processa e adiciona todas as imagens aos itens do clipboard
-                if (imageElements.length > 0 && navigator.clipboard && navigator.clipboard.write) {
+                if (textContent && navigator.clipboard && navigator.clipboard.write) {
                     try {
-                        const imagePromises = Array.from(imageElements).map(img => getClipboardImageItem(img.src));
-                        // Promise.allSettled permite que algumas promessas falhem sem parar as outras
-                        const results = await Promise.allSettled(imagePromises); 
-                        
-                        results.forEach(result => {
-                            if (result.status === 'fulfilled') {
-                                clipboardItems.push(result.value);
-                            } else {
-                                console.error('Falha ao processar uma imagem individual:', result.reason);
-                            }
-                        });
-
-                        if (clipboardItems.length === 0 && textContent) { // Se falhou a copiar imagens, mas tem texto
-                             toast.textContent = "Erro ao copiar imagens. Texto copiado!";
-                        } else if (clipboardItems.length === 0 && !textContent) { // Se não tem nem imagens nem texto pra copiar
-                            toast.textContent = "Nenhum conteúdo válido para copiar.";
-                        }
-
-                    } catch (err) {
-                        console.error('Erro inesperado ao processar imagens para cópia:', err);
-                        // Mensagem de erro mais genérica para falhas no processamento
-                        toast.textContent = "Erro ao preparar imagens. Tentando copiar texto!";
-                        toast.style.opacity = 1;
-                        setTimeout(function() {
-                            toast.style.opacity = 0;
-                            toast.textContent = "Copiado!";
-                        }, 2500);
-                        // Não há necessidade de chamar copyTextToClipboard aqui, pois o fluxo continua abaixo
-                    }
-                }
-
-                // 3. Tenta escrever todos os itens coletados para o clipboard
-                if (clipboardItems.length > 0 && navigator.clipboard && navigator.clipboard.write) {
-                    try {
-                        await navigator.clipboard.write(clipboardItems);
-                        toast.textContent = "Conteúdo (texto e/ou imagens) copiado!";
+                        await navigator.clipboard.write([new ClipboardItem({ 'text/plain': new Blob([textContent], { type: 'text/plain' }) })]);
+                        toast.textContent = "Texto copiado!";
                         toast.style.opacity = 1;
                         setTimeout(function() {
                             toast.style.opacity = 0;
                             toast.textContent = "Copiado!";
                         }, 1500);
                     } catch (err) {
-                        console.error('Falha ao escrever para o clipboard (geral):', err);
-                        alert("Erro ao copiar o conteúdo para a área de transferência. Verifique as permissões do navegador ou se está em HTTPS.");
-                        // Fallback para cópia de texto simples se a cópia de múltiplos itens falhar
-                        if (textContent) {
-                            copyTextToClipboard(textContent)
-                                .then(() => {
-                                    toast.textContent = "Texto copiado (apenas)!";
-                                    toast.style.opacity = 1;
-                                    setTimeout(() => {
-                                        toast.style.opacity = 0;
-                                        toast.textContent = "Copiado!";
-                                    }, 1500);
-                                })
-                                .catch(errText => {
-                                    console.error('Falha ao copiar texto de fallback:', errText);
-                                    alert("Erro final ao copiar conteúdo.");
-                                });
-                        }
+                        console.error('Falha ao copiar texto:', err);
+                        alert("Erro ao copiar texto para a área de transferência. Verifique as permissões do navegador ou se está em HTTPS.");
                     }
-                } else if (textContent) { // Fallback para navegadores antigos ou não-HTTPS se imagens não forem copiadas
-                     copyTextToClipboard(textContent)
-                        .then(() => {
-                            toast.textContent = "Texto copiado!";
-                            toast.style.opacity = 1;
-                            setTimeout(() => {
-                                toast.style.opacity = 0;
-                                toast.textContent = "Copiado!";
-                            }, 1500);
-                        })
-                        .catch(errText => {
-                            console.error('Falha ao copiar texto:', errText);
-                            alert("Erro ao copiar conteúdo.");
-                        });
                 } else {
-                    console.warn("Nenhum conteúdo elegível para cópia encontrado.");
+                    console.warn("Nenhum texto elegível para cópia ou API Clipboard não suportada.");
+                    alert("Não foi possível copiar o texto. O navegador pode não suportar a API Clipboard.");
                 }
             });
         }
 
-        // Função auxiliar para copiar HTML para a área de transferência (usada como fallback em alguns casos)
-        function copyHtmlToClipboard(htmlContent) {
-            if (navigator.clipboard && navigator.clipboard.write) {
-                const htmlBlob = new Blob([htmlContent], { type: 'text/html' });
-                const plainText = new DOMParser().parseFromString(htmlContent, 'text/html').body.textContent || '';
-                const textBlob = new Blob([plainText], { type: 'text/plain' });
+        // Listener para botões de COPIAR IMAGEM INDIVIDUAL
+        for (var i = 0; i < copyImageButtons.length; i++) {
+            copyImageButtons[i].addEventListener("click", async function(event) {
+                event.preventDefault();
 
-                const clipboardItem = new ClipboardItem({
-                    'text/html': htmlBlob,
-                    'text/plain': textBlob
-                });
-                return navigator.clipboard.write([clipboardItem]);
-            } else {
-                return Promise.reject(new Error("API Clipboard.write não suportada para copiar HTML complexo."));
-            }
+                var imageSrc = this.getAttribute("data-image-src");
+
+                if (!imageSrc) {
+                    console.error("Caminho da imagem não encontrado para cópia.");
+                    alert("Erro: Imagem para copiar não encontrada.");
+                    return;
+                }
+
+                if (navigator.clipboard && navigator.clipboard.write) {
+                    try {
+                        const imageItem = await getClipboardImageItem(imageSrc);
+                        await navigator.clipboard.write([imageItem]); // Copia APENAS ESTA IMAGEM
+                        toast.textContent = "Imagem copiada!";
+                        toast.style.opacity = 1;
+                        setTimeout(function() {
+                            toast.style.opacity = 0;
+                            toast.textContent = "Copiado!";
+                        }, 1500);
+                    } catch (err) {
+                        console.error('Falha ao copiar imagem:', err);
+                        alert("Erro ao copiar a imagem para a área de transferência. Verifique as permissões do navegador ou se está em HTTPS.");
+                    }
+                } else {
+                    console.warn("API Clipboard não suportada para copiar imagens.");
+                    alert("Não foi possível copiar a imagem. O navegador pode não suportar a API Clipboard para imagens.");
+                }
+            });
         }
 
-        // Função auxiliar para copiar texto para a área de transferência
+        // Função auxiliar para copiar texto para a área de transferência (ainda útil para fallbacks internos)
         function copyTextToClipboard(textContent) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 return navigator.clipboard.writeText(textContent);
@@ -483,21 +458,20 @@
             }
         }
 
-        // NOVA FUNÇÃO: Prepara um ClipboardItem para uma única imagem (com conversão JPEG para PNG)
+        // Prepara um ClipboardItem para uma única imagem (com conversão JPEG para PNG)
         async function getClipboardImageItem(imageURL) {
             try {
                 const response = await fetch(imageURL);
-                let blob = await response.blob(); // Obtém o blob original
+                let blob = await response.blob();
 
-                // Verifica se o tipo da imagem é JPEG e tenta converter para PNG para compatibilidade
                 if (blob.type === 'image/jpeg' || blob.type === 'image/jpg') {
                     console.log(`Convertendo ${imageURL} de JPEG para PNG para compatibilidade com o clipboard.`);
                     const img = new Image();
-                    img.src = URL.createObjectURL(blob); // Cria um URL para o blob
+                    img.src = URL.createObjectURL(blob);
 
                     await new Promise((resolve, reject) => {
                         img.onload = () => {
-                            URL.revokeObjectURL(img.src); // Limpa o URL do objeto após o carregamento
+                            URL.revokeObjectURL(img.src);
                             resolve();
                         };
                         img.onerror = () => {
@@ -507,7 +481,6 @@
                         };
                     });
 
-                    // Certifica-se de que a imagem foi carregada com sucesso e tem dimensões
                     if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
                         const canvas = document.createElement('canvas');
                         canvas.width = img.naturalWidth;
@@ -515,7 +488,6 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0);
 
-                        // Obtém um novo blob como PNG
                         blob = await new Promise((resolve, reject) => {
                             canvas.toBlob(newBlob => {
                                 if (newBlob) {
@@ -523,21 +495,19 @@
                                 } else {
                                     reject(new Error(`Falha ao converter ${imageURL} para PNG via canvas.`));
                                 }
-                            }, 'image/png'); // Converte para PNG
+                            }, 'image/png');
                         });
                         console.log(`Imagem ${imageURL} convertida com sucesso para PNG.`);
                     } else {
                         console.warn(`A imagem ${imageURL} não carregou completamente ou não tem dimensões válidas, pulando a conversão PNG.`);
-                        // Se a imagem não carregou, o blob original ainda será usado, o que pode levar ao erro 'NotAllowedError'
                     }
                 }
                 
-                // Retorna um ClipboardItem para esta imagem
                 return new ClipboardItem({ [blob.type]: blob });
 
             } catch (err) {
                 console.error(`Erro ao processar imagem ${imageURL} para clipboard:`, err);
-                throw err; // Rejoga o erro para ser pego pelo Promise.allSettled
+                throw err;
             }
         }
 
